@@ -20,7 +20,11 @@
       
         <tags>
             
-            <tag> -IO -Java -Netty </tag>
+            <tag> IO </tag>
+            
+            <tag> Java </tag>
+            
+            <tag> Netty </tag>
             
         </tags>
       
