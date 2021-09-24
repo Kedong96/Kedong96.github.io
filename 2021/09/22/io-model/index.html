@@ -411,12 +411,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/IO/">
-                                <span class="chip bg-color">IO</span>
-                            </a>
-                        
                             <a href="/tags/Java/">
                                 <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/IO/">
+                                <span class="chip bg-color">IO</span>
                             </a>
                         
                             <a href="/tags/Netty/">
@@ -431,8 +431,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="post-category">
-                                编程基础
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="post-category">
+                                网络编程
                             </a>
                         
                     </div>
@@ -451,7 +451,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-09-23
+                    2021-09-24
                 </div>
                 
 
@@ -1037,7 +1037,7 @@
 </li>
 </ol>
 <p>Worker NIOEventLoop 处理 NioSocketChannel 业务时，使用了 <strong>pipeline</strong> (管道)，管道中维护了 handler 处理器链表，用来处理 channel 中的数据。</p>
-<h3 id="2-ChannelPipeline"><a href="#2-ChannelPipeline" class="headerlink" title="2. ChannelPipeline"></a>2. ChannelPipeline</h3><p>Netty 将 Channel 的数据管道抽象为 ChannelPipeline，消息在 ChannelPipline 中流动和传递。ChannelPipeline 持有 I/O 事件拦截器 ChannelHandler 的双向链表，由 ChannelHandler 对 I/O 事件进行拦截和处理，可以方便的新增和删除 ChannelHandler 来实现不同的业务逻辑定制，不需要对已有的 ChannelHandler 进行修改，能够实现对修改封闭和对扩展的支持。</p>
+<h3 id="2-ChannelPipeline"><a href="#2-ChannelPipeline" class="headerlink" title="2. ChannelPipeline"></a>2. ChannelPipeline</h3><p>Netty 将 Channel 的数据管道抽象为 ChannelPipeline，消息在 ChannelPipeline 中流动和传递。ChannelPipeline 持有 I/O 事件拦截器 ChannelHandler 的双向链表，由 ChannelHandler 对 I/O 事件进行拦截和处理，可以方便的新增和删除 ChannelHandler 来实现不同的业务逻辑定制，不需要对已有的 ChannelHandler 进行修改，能够实现对修改封闭和对扩展的支持。</p>
 <p>ChannelPipeline 是一系列的 ChannelHandler 实例，流经一个 Channel 的入站和出站事件可以被 ChannelPipeline 拦截。每当一个新的 Channel 被创建了，都会建立一个新的 ChannelPipeline 并绑定到该 Channel 上，这个关联是永久性的；Channel 既不能附上另一个 ChannelPipeline 也不能分离当前这个。这些都由Netty 负责完成，而无需开发人员的特别处理。</p>
 <p>下图为 ChannelPipeline 的一个实例对象，其为一个双向链表，在链表中存放的是 DefaultChannelHandlerContext。</p>
 <img src="/2021/09/22/io-model/image-20210923131731689.png" alt="图10. ChannelPipeline实例" style="zoom:80%;">
@@ -1113,12 +1113,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/IO/">
-                                    <span class="chip bg-color">IO</span>
-                                </a>
-                            
                                 <a href="/tags/Java/">
                                     <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/IO/">
+                                    <span class="chip bg-color">IO</span>
                                 </a>
                             
                                 <a href="/tags/Netty/">
@@ -1168,17 +1168,16 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2021/09/22/io-model/">
+                <a href="/2021/09/23/http-okhttp/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2021/09/23/wyZWTp4c9FxtVzQ.png" class="responsive-img" alt="I/O模型与Netty原理分析">
+                        <img src="https://i.loli.net/2021/09/23/zeVj9oNWdrOBDXM.png" class="responsive-img" alt="okhttp">
                         
-                        <span class="card-title">I/O模型与Netty原理分析</span>
+                        <span class="card-title">okhttp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1188,35 +1187,34 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-22
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-23
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    编程基础
+                            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="post-category">
+                                    计算机网络
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/IO/">
-                        <span class="chip bg-color">IO</span>
+                    <a href="/tags/HTTP/">
+                        <span class="chip bg-color">HTTP</span>
                     </a>
                     
                     <a href="/tags/Java/">
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/Netty/">
-                        <span class="chip bg-color">Netty</span>
+                    <a href="/tags/OkHttp/">
+                        <span class="chip bg-color">OkHttp</span>
                     </a>
                     
                 </div>
@@ -1420,7 +1418,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">7.3k</span>
+                        class="white-color">10k</span>
             
             
             
