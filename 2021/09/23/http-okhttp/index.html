@@ -4,7 +4,7 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="okhttp, Java ZJUT 浙江工业大学 控制科学与工程">
+    <meta name="keywords" content="OkHttp基本使用—基于HTTP协议, Java ZJUT 浙江工业大学 控制科学与工程">
     <meta name="description" content="浙江工业大学 | 控制科学与工程 | Java后端开发">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>okhttp | 大山の博客</title>
+    <title>OkHttp基本使用—基于HTTP协议 | 大山の博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -295,7 +295,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">okhttp</h1>
+                    <h1 class="description center-align post-title">OkHttp基本使用—基于HTTP协议</h1>
                 </div>
             </div>
         </div>
@@ -458,14 +458,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    15 分
                 </div>
                 
 
@@ -488,7 +488,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="OkHttp使用详解—基于HTTP协议"><a href="#OkHttp使用详解—基于HTTP协议" class="headerlink" title="OkHttp使用详解—基于HTTP协议"></a>OkHttp使用详解—基于HTTP协议</h1><p>打开浏览器 -&gt; 输入网址 -&gt; 按下回车，经过一顿行云流水的操作，我们想要访问的网站内容便展现在显示器上。这几个操作看似简单，实际背后蕴含着复杂的机制，包括输入的域名 (例如<a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a>) 如何定位到对应的服务器，服务器如何接收浏览器的请求并返回正确的内容，浏览器如何呈现返回的数据……</p>
+                <h1 id="OkHttp基本使用—基于HTTP协议"><a href="#OkHttp基本使用—基于HTTP协议" class="headerlink" title="OkHttp基本使用—基于HTTP协议"></a>OkHttp基本使用—基于HTTP协议</h1><p>打开浏览器 -&gt; 输入网址 -&gt; 按下回车，经过一顿行云流水的操作，我们想要访问的网站内容便展现在显示器上。这几个操作看似简单，实际背后蕴含着复杂的机制，包括输入的域名 (例如<a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a>) 如何定位到对应的服务器，服务器如何接收浏览器的请求并返回正确的内容，浏览器如何呈现返回的数据……</p>
 <p>本文主要是先对其中的HTTP协议进行分析，后续讲述在Java编程中如何利用Square公司开发的<code>OkHttp</code>框架来构建HTTP请求来调取第三方接口。</p>
 <h2 id="一-HTTP协议"><a href="#一-HTTP协议" class="headerlink" title="一 HTTP协议"></a>一 HTTP协议</h2><h3 id="1-HTTP简介"><a href="#1-HTTP简介" class="headerlink" title="1. HTTP简介"></a>1. HTTP简介</h3><p>超文本传输协议 (<strong>H</strong>yper<strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol，缩写：HTTP) 是一种用于分布式、协作式和超媒体信息系统的<strong>应用层</strong>协议。HTTP是万维网的数据通信的基础。</p>
 <p>HTTP的发展是由蒂姆·伯纳斯-李于1989年在欧洲核子研究组织(CERN) 所发起。HTTP的标准制定由万维网协会 (World Wide Web Consortium，W3C)和互联网工程任务组 (Internet Engineering Task Force，IETF) 进行协调，最终发布了一系列的RFC，其中最著名的是1999年6月公布的 RFC 2616，定义了HTTP协议中现今广泛使用的一个版本——HTTP 1.1。</p>
@@ -508,9 +508,9 @@
 </li>
 <li><p><strong>服务器接受请求并返回 HTTP 响应</strong><br>Web 服务器解析请求，定位请求资源。服务器将资源复本写到 TCP 套接字，由客户端读取。一个响应由状态行、响应头部、空行和响应数据4部分组成；</p>
 </li>
-<li><p><strong>释放连接 TCP 连接</strong><br>若 connection 模式为<code>close</code>，则服务器主动关闭TCP连接，客户端被动关闭连接，释放TCP连接；若connection 模式为<code>keepalive</code>，则该连接会保持一段时间，在该时间内可以继续接收请求；</p>
+<li><p><strong>释放连接 TCP 连接</strong><br>若 connection 模式为<code>close</code>，则服务器主动关闭 TCP 连接，客户端被动关闭连接，释放 TCP 连接；若connection 模式为<code>keepalive</code>，则该连接会保持一段时间，在该时间内可以继续接收请求；</p>
 </li>
-<li><p><strong>客户端浏览器解析 HTML 内容</strong><br>客户端浏览器首先解析状态行，查看表明请求是否成功的状态代码。然后解析每一个响应头，响应头告知以下为若干字节的HTML文档和文档的字符集。客户端浏览器读取响应数据HTML，根据HTML的语法对其进行格式化，并在浏览器窗口中显示。</p>
+<li><p><strong>客户端浏览器解析 HTML 内容</strong><br>客户端浏览器首先解析状态行，查看表明请求是否成功的状态代码。然后解析每一个响应头，响应头告知以下为若干字节的HTML文档和文档的字符集。客户端浏览器读取响应数据 HTML，根据 HTML 的语法对其进行格式化，并在浏览器窗口中显示。</p>
 </li>
 </ol>
 <img src="http1.png" alt="图2. 客户端和服务器通信" style="zoom:80%;">
@@ -539,22 +539,155 @@
 <li><p><code>POST</code>：传输实体主体</p>
 <p>向指定资源提交数据，请求服务器进行处理 (例如提交表单或者上传文件) 。数据被包含在请求本文中。这个请求可能会创建新的资源或修改现有资源，或二者皆有。</p>
 </li>
-<li><p><code>GET</code>：获取资源</p>
-<p>GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器端解析后返回响应内容。如果请求的资源是文本，那就保持原样返回；如果是像 CGI (Common Gateway Interface，通用网关接口) 那样的程序，则返回经过执行后的输出结果。</p>
+<li><p><code>PUT</code>：传输文件</p>
+<p>PUT 方法用来传输文件。就像 FTP 协议的文件上传一样，要求在请求报文的主体中包含文件内容，然后保存到请求 URI 指定的位置。但是，鉴于 HTTP/1.1 的 PUT 方法自身不带验证机制，任何人都可以 上传文件 , 存在安全性问题，因此一般的 Web 网站不使用该方法。若配合 Web 应用程序的验证机制，或架构设计采用REST（REpresentational State Transfer，表征状态转移）标准的同类 Web 网站，就可能会开放使用 PUT 方法。</p>
 </li>
-<li><p><code>GET</code>：获取资源</p>
-<p>GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器端解析后返回响应内容。如果请求的资源是文本，那就保持原样返回；如果是像 CGI (Common Gateway Interface，通用网关接口) 那样的程序，则返回经过执行后的输出结果。</p>
+<li><p><code>DELETE</code>：删除文件</p>
+<p>DELETE 方法用来删除文件，是与 PUT 相反的方法。DELETE 方法按请求 URI 删除指定的资源。 但是，HTTP/1.1 的 DELETE 方法本身和 PUT 方法一样不带验证机 制，所以一般的 Web 网站也不使用 DELETE 方法。当配合 Web 应用程序的验证机制，或遵守 REST 标准时还是有可能会开放使用的。</p>
 </li>
-<li><p><code>GET</code>：获取资源</p>
-<p>GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器端解析后返回响应内容。如果请求的资源是文本，那就保持原样返回；如果是像 CGI (Common Gateway Interface，通用网关接口) 那样的程序，则返回经过执行后的输出结果。</p>
+<li><p><code>TRACE</code>：追踪路径</p>
+<p>TRACE 方法是让 Web 服务器端将之前的请求通信环回给客户端的方法。 发送请求时，在 Max-Forwards 首部字段中填入数值，每经过一个服 务器端就将该数字减 1，当数值刚好减到 0 时，就停止继续传输，最 后接收到请求的服务器端则返回状态码 200 OK 的响应。 客户端通过 TRACE 方法可以查询发送出去的请求是怎样被加工修改 / 篡改的。这是因为，请求想要连接到源目标服务器可能会通过代理 中转，TRACE 方法就是用来确认连接过程中发生的一系列操作。 但是，TRACE 方法本来就不怎么常用，再加上它容易引发 XST（Cross-Site Tracing，跨站追踪）攻击，通常就更不会用到了。</p>
 </li>
-<li><p><code>GET</code>：获取资源</p>
-<p>GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器端解析后返回响应内容。如果请求的资源是文本，那就保持原样返回；如果是像 CGI (Common Gateway Interface，通用网关接口) 那样的程序，则返回经过执行后的输出结果。</p>
+<li><p><code>OPTIONS</code>：询问支持的方法</p>
+<p>OPTIONS 方法用来查询针对请求 URI 指定的资源支持的方法。</p>
 </li>
-<li><p><code>GET</code>：获取资源</p>
-<p>GET 方法用来请求访问已被 URI 识别的资源。指定的资源经服务器端解析后返回响应内容。如果请求的资源是文本，那就保持原样返回；如果是像 CGI (Common Gateway Interface，通用网关接口) 那样的程序，则返回经过执行后的输出结果。</p>
+<li><p><code>CONNECT</code>：要求用隧道协议连接代理</p>
+<p>CONNECT 方法要求在与代理服务器通信时建立隧道，实现用隧道协议进行 TCP 通信。主要使用 SSL（Secure Sockets Layer，安全套接层）和 TLS（Transport Layer Security，传输层安全）协议把通信内容加密后经网络隧道传输。</p>
 </li>
 </ol>
+<h3 id="5-HTTP状态码"><a href="#5-HTTP状态码" class="headerlink" title="5. HTTP状态码"></a>5. HTTP状态码</h3><p>所有HTTP响应的第一行都是状态行，依次是当前HTTP版本号，3位数字组成的状态代码，以及描述状态的短语，彼此由空格分隔。</p>
+<p>状态代码的第一个数字代表当前响应的类型：</p>
+<ul>
+<li>1xx消息——请求已被服务器接收，继续处理</li>
+<li>2xx成功——请求已成功被服务器接收、理解、并接受</li>
+<li>3xx重定向——需要后续操作才能完成这一请求</li>
+<li>4xx请求错误——请求含有词法错误或者无法被执行</li>
+<li>5xx服务器错误——服务器在处理某个正确请求时发生错误</li>
+</ul>
+<p>虽然 RFC 2616 中已经推荐了描述状态的短语，例如”200 OK”，”404 Not Found”，但是WEB开发者仍然能够自行决定采用何种短语，用以显示本地化的状态描述或者自定义信息。</p>
+<blockquote>
+<p>参考资料：《图解HTTP》</p>
+</blockquote>
+<h2 id="二-OkHttp框架"><a href="#二-OkHttp框架" class="headerlink" title="二    OkHttp框架"></a>二    OkHttp框架</h2><h3 id="1-OkHttp简介"><a href="#1-OkHttp简介" class="headerlink" title="1. OkHttp简介"></a>1. OkHttp简介</h3><p>OkHttp 是一个高效的 HTTP 客户端：</p>
+<ul>
+<li>HTTP / 2支持允许对同一主机的所有请求共享一个套接字。</li>
+<li>连接池可减少请求延迟（如果 HTTP / 2不可用）。</li>
+<li>透明的 GZIP 缩小了下载大小。</li>
+<li>响应缓存可以完全避免网络重复请求。</li>
+</ul>
+<h3 id="2-OkHttp实战"><a href="#2-OkHttp实战" class="headerlink" title="2. OkHttp实战"></a>2. OkHttp实战</h3><p>以下实例代码部分来自于 OkHttp 官网：<a target="_blank" rel="noopener" href="https://square.github.io/okhttp/">https://square.github.io/okhttp/</a></p>
+<h4 id="1-导入依赖"><a href="#1-导入依赖" class="headerlink" title="(1) 导入依赖"></a>(1) 导入依赖</h4><p>在 pom.xml 中导入 OkHttp 的依赖：</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.squareup.okhttp3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>okhttp<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>3.14.9<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="2-同步GET请求"><a href="#2-同步GET请求" class="headerlink" title="(2) 同步GET请求"></a>(2) 同步GET请求</h4><p>下载一个文件，打印它的头文件，并以字符串的形式打印它的响应体。</p>
+<p>响应体上的<code>string()</code>方法对于小型文档来说是方便而高效的。但是如果响应体很大 (大于1 MiB)，避免使用<code>string()</code>，因为它会将整个文档加载到内存中。在这种情况下，倾向于将 body 转为 stream。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OkHttpClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OkHttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+  <span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"https://publicobject.com/helloworld.txt"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token class-name">Response</span> response <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">newCall</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>response<span class="token punctuation">.</span><span class="token function">isSuccessful</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IOException</span><span class="token punctuation">(</span><span class="token string">"Unexpected code "</span> <span class="token operator">+</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">Headers</span> responseHeaders <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> responseHeaders<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>responseHeaders<span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">": "</span> <span class="token operator">+</span> responseHeaders<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="3-异步GET请求"><a href="#3-异步GET请求" class="headerlink" title="(3)  异步GET请求"></a>(3)  异步GET请求</h4><p>在工作线程上下载一个文件，并在响应可读时返回。回调在响应头准备好之后进行。读取响应体仍然可能会阻塞。OkHttp目前不提供异步 api 来接收部分响应体。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">OkHttpClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OkHttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+  <span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"http://publicobject.com/helloworld.txt"</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  client<span class="token punctuation">.</span><span class="token function">newCall</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span> <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onFailure</span><span class="token punctuation">(</span><span class="token class-name">Call</span> call<span class="token punctuation">,</span> <span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span> <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onResponse</span><span class="token punctuation">(</span><span class="token class-name">Call</span> call<span class="token punctuation">,</span> <span class="token class-name">Response</span> response<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">{</span>
+      <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token class-name">ResponseBody</span> responseBody <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>response<span class="token punctuation">.</span><span class="token function">isSuccessful</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IOException</span><span class="token punctuation">(</span><span class="token string">"Unexpected code "</span> <span class="token operator">+</span> response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">Headers</span> responseHeaders <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> size <span class="token operator">=</span> responseHeaders<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>responseHeaders<span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">": "</span> <span class="token operator">+</span> responseHeaders<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>responseBody<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="4-异步POST请求-form-表单"><a href="#4-异步POST请求-form-表单" class="headerlink" title="(4) 异步POST请求 (form 表单)"></a>(4) 异步POST请求 (form 表单)</h4><p>这种方式用来上传 String 类型的键值对：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">OkHttpClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OkHttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//创建OkHttpClient对象</span>
+<span class="token class-name">FormBody<span class="token punctuation">.</span>Builder</span> formBody <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FormBody<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//创建表单请求体</span>
+   formBody<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"username"</span><span class="token punctuation">,</span><span class="token string">"zhangsan"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//传递键值对参数</span>
+   <span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//创建Request 对象</span>
+           <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"http://www.baidu.com"</span><span class="token punctuation">)</span>
+           <span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>formBody<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment">//传递请求体</span>
+           <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   client<span class="token punctuation">.</span><span class="token function">newCall</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>。。。<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//此处省略回调方法</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="5-异步POST请求-Json-格式"><a href="#5-异步POST请求-Json-格式" class="headerlink" title="(5) 异步POST请求 (Json 格式)"></a>(5) 异步POST请求 (Json 格式)</h4><p>RequestBody 是抽象类，故不能直接使用，但是他有静态方法create，使用这个方法可以得到 RequestBody 对象，这种方式可以上传 Json 对象或File对象。<br><strong>上传 Json 对象使用示例如下：</strong></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">OkHttpClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OkHttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//创建OkHttpClient对象</span>
+<span class="token class-name">MediaType</span> JSON <span class="token operator">=</span> <span class="token class-name">MediaType</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token string">"application/json; charset=utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//数据类型为json格式</span>
+<span class="token class-name">String</span> jsonStr <span class="token operator">=</span> <span class="token string">"{\"username\":\"lisi\",\"nickname\":\"李四\"}"</span><span class="token punctuation">;</span><span class="token comment">//json数据</span>
+<span class="token class-name">RequestBody</span> body <span class="token operator">=</span> <span class="token class-name">RequestBody</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>JSON<span class="token punctuation">,</span> josnStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"http://www.baidu.com"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+client<span class="token punctuation">.</span><span class="token function">newCall</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//此处省略回调方法</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>上传File对象使用示例如下：</strong></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">OkHttpClient</span> client <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OkHttpClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//创建OkHttpClient对象</span>
+<span class="token class-name">MediaType</span> fileType <span class="token operator">=</span> <span class="token class-name">MediaType</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token string">"File/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//数据类型为json格式</span>
+<span class="token class-name">File</span> file <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//file对象.</span>
+<span class="token class-name">RequestBody</span> body <span class="token operator">=</span> <span class="token class-name">RequestBody</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>fileType <span class="token punctuation">,</span> file <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"http://www.baidu.com"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+client<span class="token punctuation">.</span><span class="token function">newCall</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">enqueue</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//此处省略回调方法</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="6-设置请求头"><a href="#6-设置请求头" class="headerlink" title="(6) 设置请求头"></a>(6) 设置请求头</h4><p>OkHttp 中设置请求头特别简单，在创建request对象时调用一个方法即可。<br>使用示例如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"http://www.baidu.com"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"User-Agent"</span><span class="token punctuation">,</span> <span class="token string">"OkHttp Headers.java"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">addHeader</span><span class="token punctuation">(</span><span class="token string">"token"</span><span class="token punctuation">,</span> <span class="token string">"myToken"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="7-身份认证"><a href="#7-身份认证" class="headerlink" title="(7) 身份认证"></a>(7) 身份认证</h4><p>有时第三方接口需要基本身份验证，可在请求头中加入用户名、密码等信息：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> credential <span class="token operator">=</span> <span class="token class-name">Credentials</span><span class="token punctuation">.</span><span class="token function">basic</span><span class="token punctuation">(</span><span class="token string">"elastic"</span><span class="token punctuation">,</span> <span class="token string">"hzxfadmin123."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Request</span> request <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Request<span class="token punctuation">.</span>Builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Authorization"</span><span class="token punctuation">,</span> credential<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">url</span><span class="token punctuation">(</span><span class="token string">"https://www.aivisioncloud.com:9200/_cat/indices?v"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">try</span><span class="token punctuation">(</span><span class="token class-name">Response</span> response <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">newCall</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
@@ -682,9 +815,9 @@
                 <a href="/2021/09/23/http-okhttp/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2021/09/23/zeVj9oNWdrOBDXM.png" class="responsive-img" alt="okhttp">
+                        <img src="https://i.loli.net/2021/09/23/zeVj9oNWdrOBDXM.png" class="responsive-img" alt="OkHttp基本使用—基于HTTP协议">
                         
-                        <span class="card-title">okhttp</span>
+                        <span class="card-title">OkHttp基本使用—基于HTTP协议</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -929,7 +1062,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">10k</span>
+                        class="white-color">11.3k</span>
             
             
             
